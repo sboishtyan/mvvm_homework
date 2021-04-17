@@ -3,8 +3,10 @@ package ru.awac.technical_aptitude_test.utils
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
+import java.text.SimpleDateFormat
+import java.util.*
 
-    fun View.fadeTo(visible: Boolean, duration: Long = 750, startDelay: Long = 0, toAlpha: Float = 1f) {
+fun View.fadeTo(visible: Boolean, duration: Long = 750, startDelay: Long = 0, toAlpha: Float = 1f) {
         // Make this idempotent.
         val tagKey = "fadeTo".hashCode()
         if (visible == isVisible && animation == null && getTag(tagKey) == null) return
@@ -28,3 +30,13 @@ import androidx.interpolator.view.animation.FastOutSlowInInterpolator
             .setStartDelay(startDelay)
             .start()
     }
+
+fun String?.checkFieldForNull(): String {
+    return if (this == null || this.isEmpty()) "Не указано"
+    else this
+}
+
+fun Long?.formatDateAndTime(): String {
+    return SimpleDateFormat("dd.MM.yyyy, HH:mm", Locale.getDefault()).format(this)
+        ?: "Не указано"
+}

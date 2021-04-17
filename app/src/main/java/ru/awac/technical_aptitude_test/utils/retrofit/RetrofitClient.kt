@@ -1,4 +1,4 @@
-package ru.awac.technical_aptitude_test.Retrofit
+package ru.awac.technical_aptitude_test.utils.retrofit
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

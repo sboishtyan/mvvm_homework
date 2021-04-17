@@ -1,6 +1,6 @@
 package ru.awac.technical_aptitude_test.Model
 
-data class ResponseContainer(
+data class ResponseModel(
     var token: String? = null,
     var desc: String? = null,
     var amount: Double? = null,

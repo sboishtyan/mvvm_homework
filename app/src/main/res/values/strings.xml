@@ -5,9 +5,9 @@
     <string name="login_length_incorrect">Minimal login length is four characters!</string>
     <string name="prompt_password">Password</string>
     <string name="password_length_incorrect">Minimal password length is five characters!</string>
-    <string name="action_sign_in">Sign in </string>
-    <string name="welcome">"Welcome!"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >4 characters</string>
-    <string name="login_failed">"Login failed"</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="retrofit_error">Something went wrong…</string>
+    <!-- Strings related to payments -->
+    <string name="title">My payments</string>
+    <string name="action_log_out">Log out</string>
 </resources>
