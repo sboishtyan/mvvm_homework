@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">technical_aptitude_test</string>
+    <!-- Strings related to login -->
+    <string name="prompt_login">Login</string>
+    <string name="login_length_incorrect">Minimal login length is four characters!</string>
+    <string name="prompt_password">Password</string>
+    <string name="password_length_incorrect">Minimal password length is five characters!</string>
+    <string name="action_sign_in">Sign in </string>
+    <string name="welcome">"Welcome!"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >4 characters</string>
+    <string name="login_failed">"Login failed"</string>
+</resources>
