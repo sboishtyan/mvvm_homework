@@ -4,14 +4,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_login.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import ru.awac.technical_aptitude_test.utils.retrofit.Common
-import ru.awac.technical_aptitude_test.utils.retrofit.RetrofitServices
-import ru.awac.technical_aptitude_test.Model.LoginModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import ru.awac.technical_aptitude_test.R
 import ru.awac.technical_aptitude_test.utils.fadeTo
+import ru.awac.technical_aptitude_test.utils.retrofit.Common
+import ru.awac.technical_aptitude_test.utils.retrofit.RetrofitServices
 
 class LoginFragment : Fragment(R.layout.fragment_login) {
 
@@ -36,12 +35,16 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             hideMessages()
             checkLogin()
             checkPassword()
-            if (isLoginCorrect && isPasswordCorrect)
-                login(enteredLogin, enteredPassword)
+            if (isLoginCorrect && isPasswordCorrect) {
+                fpProgressBar.fadeTo(true)
+                GlobalScope.launch(Dispatchers.Main) {
+                    login(enteredLogin, enteredPassword)
+                }
+            }
         }
     }
 
-    private fun hideMessages(){
+    private fun hideMessages() {
         flPassErrorTextView.fadeTo(false)
         flLoginErrorTextView.fadeTo(false)
         flLoginProcessErrorTextView.fadeTo(false)
@@ -63,28 +66,22 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             isPasswordCorrect = true
     }
 
-    private fun login(login: String, password: String) {
-        fpProgressBar.fadeTo(true)
-        mService.login(login, password).enqueue(object : Callback<LoginModel> {
+    private suspend fun login(login: String, password: String) {
+        val result = mService.login(login, password)
 
-            override fun onFailure(call: Call<LoginModel>, t: Throwable) {
-                fpProgressBar.fadeTo(false)
-                flLoginProcessErrorTextView.text = getString(R.string.retrofit_error)
-            }
-
-            override fun onResponse(call: Call<LoginModel>, responseLoginModel: Response<LoginModel>) {
-                if (responseLoginModel.body()?.success == true) {
-                    token = responseLoginModel.body()?.response?.token
-                    openPaymentsFragment(token)
-                } else {
-                    flLoginProcessErrorTextView.text = responseLoginModel.body()?.error?.error_msg
-                    flLoginProcessErrorTextView.fadeTo(true)
-                }
-            }
-        })
+        if (result.response?.token != null) {
+            token = mService.login(login, password).response?.token
+            openPaymentsFragment(token)
+        } else if (result.error?.error_msg != null) {
+            flLoginProcessErrorTextView.text = mService.login(login, password).error?.error_msg
+            flLoginProcessErrorTextView.fadeTo(true)
+        } else {
+            flLoginProcessErrorTextView.text = getString(R.string.retrofit_error)
+        }
+        fpProgressBar.fadeTo(false)
     }
 
-    private fun openPaymentsFragment (token: String?){
+    private fun openPaymentsFragment(token: String?) {
         val transaction = activity?.supportFragmentManager?.beginTransaction()
         transaction?.replace(
             R.id.fragment_container_view,

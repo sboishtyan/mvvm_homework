@@ -9,14 +9,14 @@ interface RetrofitServices {
     @Headers("app-key: 12345","v: 1")
     @FormUrlEncoded
     @POST("login")
-    fun login(
+    suspend fun login(
         @Field("login") login: String,
         @Field("password") password: String
-    ): Call<LoginModel>
+    ): LoginModel
 
     @Headers("app-key: 12345","v: 1")
     @GET("payments")
-    fun getPayments(
+    suspend fun getPayments(
         @Query("token") token: String
-    ): Call<PaymentsModel>
+    ): PaymentsModel
 }

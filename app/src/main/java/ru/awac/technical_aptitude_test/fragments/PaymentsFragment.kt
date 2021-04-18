@@ -5,10 +5,9 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_payments.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import ru.awac.technical_aptitude_test.Model.PaymentsModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import ru.awac.technical_aptitude_test.Model.ResponseModel
 import ru.awac.technical_aptitude_test.R
 import ru.awac.technical_aptitude_test.utils.adapter.PaymentsAdapter
@@ -37,40 +36,55 @@ class PaymentsFragment : Fragment(R.layout.fragment_payments) {
         layoutManager = LinearLayoutManager(activity)
         fpRecyclerView.layoutManager = layoutManager
 
-        loadPayments(token)
-
+        GlobalScope.launch(Dispatchers.Main) {
+            token?.let { loadPayments(it) }
+        }
 
         fpLogOutButton.setOnClickListener {
             logOut()
         }
-
     }
 
-    private fun loadPayments(token: String?){
-        if (token != null) {
-            mService.getPayments(token).enqueue(object : Callback<PaymentsModel> {
-                override fun onFailure(call: Call<PaymentsModel>, t: Throwable) {
-                    fpProgressBar.fadeTo(false)
-                }
-                override fun onResponse(
-                    call: Call<PaymentsModel>,
-                    responseLoginModel: Response<PaymentsModel>
-                ) {
-                    adapter = PaymentsAdapter(responseLoginModel.body()?.response
-                            as MutableList<ResponseModel>)
-                    adapter.notifyDataSetChanged()
-                    fpRecyclerView.adapter = adapter
-                    fpProgressBar.fadeTo(false)
-                }
 
+    private suspend fun loadPayments(token: String) {
+        val result = mService.getPayments(token).response
+        fpProgressBar.fadeTo(false)
+        if (result != null) {
+            adapter = PaymentsAdapter(
+                mService.getPayments(token).response as MutableList<ResponseModel>
+            )
+            adapter.notifyDataSetChanged()
+            fpRecyclerView.adapter = adapter
+        } else {
 
-
-            })
         }
-
     }
 
-    private fun logOut(){
+    /**
+    mService.getPayments(token).enqueue(object : Callback<PaymentsModel> {
+    override fun onFailure(call: Call<PaymentsModel>, t: Throwable) {
+    fpProgressBar.fadeTo(false)
+    }
+    override fun onResponse(
+    call: Call<PaymentsModel>,
+    responseLoginModel: Response<PaymentsModel>
+    ) {
+    adapter = PaymentsAdapter(responseLoginModel.body()?.response
+    as MutableList<ResponseModel>)
+    adapter.notifyDataSetChanged()
+    fpRecyclerView.adapter = adapter
+    fpProgressBar.fadeTo(false)
+    }
+
+
+
+    })
+    }
+
+    }
+     **/
+
+    private fun logOut() {
         val transaction = activity?.supportFragmentManager?.beginTransaction()
         transaction?.replace(
             R.id.fragment_container_view,

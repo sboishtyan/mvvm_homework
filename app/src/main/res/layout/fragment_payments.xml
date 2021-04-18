@@ -44,6 +44,20 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.3" />
 
+    <TextView
+        android:id="@+id/fpErrorTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/paddingL"
+        android:layout_marginTop="@dimen/paddingS"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fpRecyclerView"
+        android:textColor="@color/red"
+        android:visibility="visible"
+        android:textAlignment="center"
+        />
+
     <Button
         android:id="@+id/fpLogOutButton"
         android:layout_width="wrap_content"
@@ -54,7 +68,7 @@
         android:text="@string/action_log_out"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fpRecyclerView"/>
+        app:layout_constraintTop_toBottomOf="@id/fpErrorTextView"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
