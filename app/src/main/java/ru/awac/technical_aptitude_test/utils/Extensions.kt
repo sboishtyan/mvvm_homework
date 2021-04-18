@@ -32,11 +32,14 @@ fun View.fadeTo(visible: Boolean, duration: Long = 750, startDelay: Long = 0, to
     }
 
 fun String?.checkFieldForNull(): String {
-    return if (this == null || this.isEmpty()) "Не указано"
+    return if (this == null || this.isEmpty()) "Not specified"
     else this
 }
 
 fun Long?.formatDateAndTime(): String {
-    return SimpleDateFormat("dd.MM.yyyy, HH:mm", Locale.getDefault()).format(this)
-        ?: "Не указано"
+    return if (this == null || this == 0L)
+        "Not specified"
+    else
+        return SimpleDateFormat("dd.MM.yyyy, HH:mm", Locale.getDefault())
+            .format((this.times(1000L)))
 }
