@@ -3,12 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="@dimen/paddingM"
-    tools:context=".fragments.LoginFragment"
-    android:background="@color/grey">
+    style="@style/RootView"
+    tools:context=".fragments.LoginFragment">
 
     <ImageView
         android:id="@+id/flLogo"
@@ -23,104 +19,63 @@
 
     <EditText
         android:id="@+id/flLoginEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/paddingL"
-        android:layout_marginTop="@dimen/paddingXXXl"
+        style="@style/EditText"
+        android:layout_marginTop="@dimen/paddingXXXL"
         android:hint="@string/prompt_login"
         android:inputType="text|textNoSuggestions"
-        android:selectAllOnFocus="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/flLogo"
-        android:autofillHints="@string/prompt_login" />
+        android:autofillHints="@string/prompt_login"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/flLoginErrorTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/paddingL"
-        android:layout_marginTop="@dimen/paddingS"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        style="@style/ErrorTextView"
         app:layout_constraintTop_toBottomOf="@+id/flLoginEditText"
         android:text="@string/login_length_incorrect"
-        android:textColor="@color/red"
-        android:textAlignment="center"
-        android:visibility="gone"/>
+        tools:ignore="MissingConstraints" />
 
     <EditText
         android:id="@+id/flPassEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/paddingL"
+        style="@style/EditText"
         android:layout_marginTop="@dimen/paddingS"
         android:hint="@string/prompt_password"
         android:imeActionLabel="@string/action_sign_in"
-        android:imeOptions="actionDone"
         android:inputType="textPassword"
-        android:selectAllOnFocus="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/flLoginErrorTextView"
-        android:autofillHints="@string/prompt_password" />
+        android:autofillHints="@string/prompt_password"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/flPassErrorTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/paddingL"
-        android:layout_marginTop="@dimen/paddingS"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        style="@style/ErrorTextView"
         app:layout_constraintTop_toBottomOf="@+id/flPassEditText"
         android:text="@string/password_length_incorrect"
-        android:textColor="@color/red"
-        android:textAlignment="center"
-        android:visibility="gone"/>
+        tools:ignore="MissingConstraints" />
 
 
     <Button
         android:id="@+id/flSignInButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/Button"
         android:layout_gravity="start"
-        android:layout_marginHorizontal="@dimen/paddingXXXl"
-        android:layout_marginTop="@dimen/paddingM"
-        android:enabled="true"
         android:text="@string/action_sign_in"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/flPassErrorTextView"
-        app:layout_constraintVertical_bias="0.2" />
+        app:layout_constraintVertical_bias="0.2"
+        tools:ignore="MissingConstraints"/>
 
     <ProgressBar
         android:id="@+id/fpProgressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginHorizontal="@dimen/paddingXL"
-        android:layout_marginVertical="@dimen/paddingXXXl"
+        style="@style/ProgressBar"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/flPassEditText"
         app:layout_constraintStart_toStartOf="@+id/flPassEditText"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3" />
+        tools:ignore="MissingConstraints"/>
 
     <TextView
         android:id="@+id/flLoginProcessErrorTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/paddingL"
-        android:layout_marginTop="@dimen/paddingS"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        style="@style/ErrorTextView"
         app:layout_constraintTop_toBottomOf="@+id/flSignInButton"
-        android:textColor="@color/red"
-        android:textAlignment="center"
-        android:visibility="gone"/>
+        tools:ignore="MissingConstraints" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
