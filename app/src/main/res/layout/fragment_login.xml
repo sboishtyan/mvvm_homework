@@ -7,20 +7,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/paddingM"
-    tools:context=".fragments.LoginFragment">
+    tools:context=".fragments.LoginFragment"
+    android:background="@color/grey">
+
+    <ImageView
+        android:id="@+id/flLogo"
+        android:layout_width="@dimen/padding_Huge"
+        android:layout_height="@dimen/padding_Huge"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/padding_Huge"
+        android:src="@drawable/aeon"
+        tools:ignore="ContentDescription" />
 
     <EditText
         android:id="@+id/flLoginEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/paddingL"
-        android:layout_marginTop="@dimen/paddingHuge"
+        android:layout_marginTop="@dimen/paddingXXXl"
         android:hint="@string/prompt_login"
         android:inputType="text|textNoSuggestions"
         android:selectAllOnFocus="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/flLogo"
         android:autofillHints="@string/prompt_login" />
 
     <TextView

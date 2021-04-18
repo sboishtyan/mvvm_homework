@@ -8,6 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="red">#ff0000</color>
-    <color name="colorRipple">#26000000</color>
+    <color name="grey">#E9EAEE</color>
     <color name="cardViewBgColor">#ffffff</color>
 </resources>

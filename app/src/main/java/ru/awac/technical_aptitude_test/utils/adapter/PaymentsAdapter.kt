@@ -1,13 +1,10 @@
 package ru.awac.technical_aptitude_test.utils.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.item_layout.view.*
 import ru.awac.technical_aptitude_test.Model.ResponseModel
-import ru.awac.technical_aptitude_test.R
+import ru.awac.technical_aptitude_test.databinding.ItemLayoutBinding
 import ru.awac.technical_aptitude_test.utils.checkFieldForNull
 import ru.awac.technical_aptitude_test.utils.formatDateAndTime
 
@@ -15,27 +12,22 @@ class PaymentsAdapter(
     private val paymentList: MutableList<ResponseModel>
 ):RecyclerView.Adapter<PaymentsAdapter.PaymentViewHolder>() {
 
-    class PaymentViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-        val iCreatedTextView: TextView = itemView.iCreatedTextView
-        val iCurrencyTextView: TextView = itemView.iCurrencyTextView
-        val iAmountTextView: TextView = itemView.iAmountTextView
-        val iDescriptionTextView: TextView = itemView.iDescriptionTextView
-
-    }
+    inner class PaymentViewHolder(val binding:  ItemLayoutBinding
+    ): RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PaymentViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_layout, parent,
+        val binding = ItemLayoutBinding.inflate(LayoutInflater.from(parent.context), parent,
             false)
-        return PaymentViewHolder(itemView)
+        return PaymentViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: PaymentViewHolder, position: Int) {
-        holder.iCreatedTextView.text = paymentList[position].created.formatDateAndTime()
-        holder.iCurrencyTextView.text = paymentList[position].currency.checkFieldForNull()
-        holder.iAmountTextView.text = paymentList[position].amount.toString().checkFieldForNull()
-        //TODO: проверить тип переменной, добавить названия для полей
-        holder.iDescriptionTextView.text = paymentList[position].desc.checkFieldForNull()
+        holder.binding.iCreatedTextView.text = paymentList[position].created.formatDateAndTime()
+        holder.binding.iCurrencyTextView.text = paymentList[position].currency.checkFieldForNull()
+        holder.binding.iAmountTextView.text = paymentList[position].amount.toString().checkFieldForNull()
+        holder.binding.iDescriptionTextView.text = paymentList[position].desc.checkFieldForNull()
     }
 
     override fun getItemCount() = paymentList.size
+
 }

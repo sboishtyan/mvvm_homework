@@ -10,4 +10,9 @@
     <!-- Strings related to payments -->
     <string name="title">My payments</string>
     <string name="action_log_out">Log out</string>
+    <string name="create_title">Date created:&#160;</string>
+    <string name="currency_title">Currency:&#160;</string>
+    <string name="amount_title">&#160;Amount:&#160;</string>
+    <string name="description_title">Description:&#160;</string>
+
 </resources>

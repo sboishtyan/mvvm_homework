@@ -1,41 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="@dimen/paddingS"
     android:orientation="vertical"
     android:background="@drawable/item_background">
 
     <TextView
+        android:id="@+id/iCreatedTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/create_title"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/black"
+        android:textStyle="bold"/>
+
+    <TextView
         android:id="@+id/iCreatedTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="Created" />
+        tools:text="Created"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/iCreatedTitleTextView"
+        android:textColor="@color/black"/>
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    <TextView
+        android:id="@+id/iCurrencyTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/currency_title"
+        app:layout_constraintTop_toBottomOf="@id/iCreatedTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/black"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/iCurrencyTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="Currency" />
+        tools:text="Currency"
+        app:layout_constraintTop_toBottomOf="@id/iCreatedTextView"
+        app:layout_constraintStart_toEndOf="@id/iCurrencyTitleTextView"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:id="@+id/iAmountTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/amount_title"
+        app:layout_constraintTop_toBottomOf="@id/iCreatedTextView"
+        app:layout_constraintStart_toEndOf="@id/iCurrencyTextView"
+        android:textColor="@color/black"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/iAmountTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/paddingS"
-        tools:text="Amount" />
+        tools:text="Amount"
+        app:layout_constraintTop_toBottomOf="@id/iCreatedTextView"
+        app:layout_constraintStart_toEndOf="@id/iAmountTitleTextView"
+        android:textColor="@color/black"/>
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/iDescriptionTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/description_title"
+        app:layout_constraintTop_toBottomOf="@id/iCurrencyTitleTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/black"
+        android:textStyle="bold"/>
+
     <TextView
         android:id="@+id/iDescriptionTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="Description" />
+        tools:text="Description"
+        app:layout_constraintTop_toBottomOf="@id/iCurrencyTitleTextView"
+        app:layout_constraintStart_toEndOf="@id/iDescriptionTitleTextView"
+        android:textColor="@color/black"/>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

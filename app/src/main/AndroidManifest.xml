@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="ru.awac.technical_aptitude_test">
 
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -11,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
-        android:theme="@style/Theme.Technical_aptitude_test">
+        android:theme="@style/NoActionBarNoTitle"
+        tools:ignore="AllowBackup">
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

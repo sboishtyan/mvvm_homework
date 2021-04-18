@@ -1,15 +1,17 @@
 package ru.awac.technical_aptitude_test.fragments
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.fragment_payments.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import ru.awac.technical_aptitude_test.Model.ResponseModel
 import ru.awac.technical_aptitude_test.R
+import ru.awac.technical_aptitude_test.databinding.FragmentPaymentsBinding
 import ru.awac.technical_aptitude_test.utils.adapter.PaymentsAdapter
 import ru.awac.technical_aptitude_test.utils.fadeTo
 import ru.awac.technical_aptitude_test.utils.retrofit.Common
@@ -17,6 +19,9 @@ import ru.awac.technical_aptitude_test.utils.retrofit.RetrofitServices
 
 class PaymentsFragment : Fragment(R.layout.fragment_payments) {
     private var token: String? = null
+
+    private var _binding: FragmentPaymentsBinding? = null
+    private  val binding get() = _binding!!
 
     private lateinit var mService: RetrofitServices
     private lateinit var layoutManager: LinearLayoutManager
@@ -29,18 +34,27 @@ class PaymentsFragment : Fragment(R.layout.fragment_payments) {
         }
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentPaymentsBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         mService = Common.retrofitService
         layoutManager = LinearLayoutManager(activity)
-        fpRecyclerView.layoutManager = layoutManager
+        binding.fpRecyclerView.layoutManager = layoutManager
 
         GlobalScope.launch(Dispatchers.Main) {
             token?.let { loadPayments(it) }
         }
 
-        fpLogOutButton.setOnClickListener {
+        binding.fpLogOutButton.setOnClickListener {
             logOut()
         }
     }
@@ -48,41 +62,18 @@ class PaymentsFragment : Fragment(R.layout.fragment_payments) {
 
     private suspend fun loadPayments(token: String) {
         val result = mService.getPayments(token).response
-        fpProgressBar.fadeTo(false)
+        binding.fpProgressBar.fadeTo(false)
         if (result != null) {
             adapter = PaymentsAdapter(
                 mService.getPayments(token).response as MutableList<ResponseModel>
             )
             adapter.notifyDataSetChanged()
-            fpRecyclerView.adapter = adapter
+            binding.fpRecyclerView.adapter = adapter
         } else {
-
+            binding.fpErrorTextView.text = getString(R.string.retrofit_error)
+            binding.fpErrorTextView.fadeTo(true)
         }
     }
-
-    /**
-    mService.getPayments(token).enqueue(object : Callback<PaymentsModel> {
-    override fun onFailure(call: Call<PaymentsModel>, t: Throwable) {
-    fpProgressBar.fadeTo(false)
-    }
-    override fun onResponse(
-    call: Call<PaymentsModel>,
-    responseLoginModel: Response<PaymentsModel>
-    ) {
-    adapter = PaymentsAdapter(responseLoginModel.body()?.response
-    as MutableList<ResponseModel>)
-    adapter.notifyDataSetChanged()
-    fpRecyclerView.adapter = adapter
-    fpProgressBar.fadeTo(false)
-    }
-
-
-
-    })
-    }
-
-    }
-     **/
 
     private fun logOut() {
         val transaction = activity?.supportFragmentManager?.beginTransaction()

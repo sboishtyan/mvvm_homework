@@ -1,12 +1,12 @@
 <resources>
 
+    <dimen name="paddingXS">2dp</dimen>
     <dimen name="paddingS">8dp</dimen>
     <dimen name="paddingM">16dp</dimen>
     <dimen name="paddingL">24dp</dimen>
     <dimen name="paddingXL">32dp</dimen>
     <dimen name="paddingXXl">48dp</dimen>
     <dimen name="paddingXXXl">64dp</dimen>
-    <dimen name="paddingHuge">96dp</dimen>
-
-
+    <dimen name="padding_Huge">96dp</dimen>
+    <dimen name="divider_height">0.5dp</dimen>
 </resources>
