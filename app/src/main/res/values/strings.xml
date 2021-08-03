@@ -2,17 +2,11 @@
     <string name="app_name">technical_aptitude_test</string>
     <!-- Strings related to login -->
     <string name="prompt_login">Login</string>
-    <string name="login_length_incorrect">Minimal login length is four characters!</string>
+    <string name="login_incorrect">Please enter a valid e-mail address</string>
     <string name="prompt_password">Password</string>
-    <string name="password_length_incorrect">Minimal password length is five characters!</string>
+    <string name="password_length_incorrect">Minimal password length is eight characters</string>
+    <string name="action_register">Register</string>
     <string name="action_sign_in">Sign in</string>
-    <string name="retrofit_error">Something went wrong…</string>
-    <!-- Strings related to payments -->
-    <string name="title">My payments</string>
-    <string name="action_log_out">Log out</string>
-    <string name="create_title">Date created:&#160;</string>
-    <string name="currency_title">Currency:&#160;</string>
-    <string name="amount_title">&#160;Amount:&#160;</string>
-    <string name="description_title">Description:&#160;</string>
+    <string name="login_success">You logged in successfully!</string>
 
 </resources>

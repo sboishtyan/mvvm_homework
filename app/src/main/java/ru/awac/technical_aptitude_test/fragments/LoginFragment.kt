@@ -1,36 +1,27 @@
 package ru.awac.technical_aptitude_test.fragments
 
 import android.os.Bundle
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import ru.awac.technical_aptitude_test.R
 import ru.awac.technical_aptitude_test.databinding.FragmentLoginBinding
 import ru.awac.technical_aptitude_test.utils.fadeTo
-import ru.awac.technical_aptitude_test.utils.retrofit.Common
-import ru.awac.technical_aptitude_test.utils.retrofit.RetrofitServices
 
 class LoginFragment : Fragment(R.layout.fragment_login) {
 
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
 
+    private var isLoginEntered = false
+    private var isPasswordEntered = false
     private var isLoginCorrect: Boolean = false
     private var isPasswordCorrect: Boolean = false
     private var enteredLogin: String = ""
     private var enteredPassword: String = ""
-    private var token: String? = null
-
-    private lateinit var mService: RetrofitServices
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        mService = Common.retrofitService
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,18 +34,30 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.flLoginEditText.doAfterTextChanged {
+            isLoginEntered = it.toString() != ""
+            enableActionButtons()
+        }
+
+        binding.flPassEditText.doAfterTextChanged {
+            isPasswordEntered = it.toString() != ""
+            enableActionButtons()
+        }
 
         binding.flSignInButton.setOnClickListener {
             hideMessages()
             checkLogin()
             checkPassword()
             if (isLoginCorrect && isPasswordCorrect) {
-                binding.fpProgressBar.fadeTo(true)
-                GlobalScope.launch(Dispatchers.Main) {
-                    login(enteredLogin, enteredPassword)
-                }
+                binding.flLoginProcessErrorTextView.fadeTo(true)
             }
         }
+    }
+
+    private fun enableActionButtons() {
+        val isDataEntered = isLoginEntered && isPasswordEntered
+        binding.flRegisterButton.isEnabled = isDataEntered
+        binding.flSignInButton.isEnabled = isDataEntered
     }
 
     override fun onDestroyView() {
@@ -70,10 +73,29 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     private fun checkLogin() {
         enteredLogin = binding.flLoginEditText.text.toString()
-        if (enteredLogin.length < MINIMAL_LOGIN_LENGTH)
-            binding.flLoginErrorTextView.fadeTo(true)
-        else
+        val isUsernameCorrect: Boolean
+        val isTopLevelDomainCorrect: Boolean
+        val atSignSplitEmailList = enteredLogin.split("@")
+        val isOnlyCorrectSymbols: Boolean = Patterns.EMAIL_ADDRESS.matcher(enteredLogin).matches()
+
+        if (atSignSplitEmailList.size != 2) {
+            isUsernameCorrect = false
+            isTopLevelDomainCorrect = false
+        } else {
+            isUsernameCorrect = atSignSplitEmailList[0] != ""
+            isTopLevelDomainCorrect =
+                atSignSplitEmailList[1].split(".").last() != ""
+        }
+
+        if (enteredLogin.contains("@") &&
+            enteredLogin.contains(".") &&
+            isOnlyCorrectSymbols &&
+            isUsernameCorrect &&
+            isTopLevelDomainCorrect
+        )
             isLoginCorrect = true
+        else
+            binding.flLoginErrorTextView.fadeTo(true)
     }
 
     private fun checkPassword() {
@@ -84,34 +106,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             isPasswordCorrect = true
     }
 
-    private suspend fun login(login: String, password: String) {
-        val result = mService.login(login, password)
-
-        if (result.response?.token != null) {
-            token = mService.login(login, password).response?.token
-            openPaymentsFragment(token)
-        } else if (result.error?.error_msg != null) {
-            binding.flLoginProcessErrorTextView.text = mService.login(login, password).error?.error_msg
-            binding.flLoginProcessErrorTextView.fadeTo(true)
-        } else {
-            binding.flLoginProcessErrorTextView.text = getString(R.string.retrofit_error)
-        }
-        binding.fpProgressBar.fadeTo(false)
-    }
-
-    private fun openPaymentsFragment(token: String?) {
-        val transaction = activity?.supportFragmentManager?.beginTransaction()
-        transaction?.replace(
-            R.id.fragment_container_view,
-            PaymentsFragment.newInstance(token)
-        )
-        transaction?.commit()
-    }
-
     companion object {
-        const val MINIMAL_LOGIN_LENGTH = 4
-        const val MINIMAL_PASSWORD_LENGTH = 5
-
-        fun newInstance() = LoginFragment()
+        const val MINIMAL_PASSWORD_LENGTH = 8
     }
 }
