@@ -1,9 +1,10 @@
-package ru.awac.technical_aptitude_test
+package ru.awac.mvvm_homework
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
+import mvvm_homework.R
 import ru.awac.technical_aptitude_test.fragments.LoginFragment
 
 class MainActivity : AppCompatActivity() {

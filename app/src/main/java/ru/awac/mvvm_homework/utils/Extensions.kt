@@ -1,4 +1,4 @@
-package ru.awac.technical_aptitude_test.utils
+package ru.awac.mvvm_homework.utils
 
 import android.view.View
 import androidx.core.view.isVisible

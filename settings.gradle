@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name = "technical_aptitude_test"
+rootProject.name = "mvvm_homework"

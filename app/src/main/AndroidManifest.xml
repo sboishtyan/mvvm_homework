@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="ru.awac.technical_aptitude_test">
+    package="mvvm_homework">
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
@@ -14,7 +14,7 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/NoActionBarNoTitle"
         tools:ignore="AllowBackup">
-        <activity android:name=".MainActivity">
+        <activity android:name="ru.awac.mvvm_homework.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

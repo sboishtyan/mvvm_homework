@@ -1,4 +1,4 @@
-package ru.awac.technical_aptitude_test
+package ru.awac.mvvm_homework
 
 import org.junit.Test
 

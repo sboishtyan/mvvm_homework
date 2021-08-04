@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
-import ru.awac.technical_aptitude_test.R
-import ru.awac.technical_aptitude_test.databinding.FragmentLoginBinding
-import ru.awac.technical_aptitude_test.utils.fadeTo
+import mvvm_homework.R
+import mvvm_homework.databinding.FragmentLoginBinding
+import ru.awac.mvvm_homework.utils.fadeTo
 
 class LoginFragment : Fragment(R.layout.fragment_login) {
 

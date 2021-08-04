@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">technical_aptitude_test</string>
+    <string name="app_name">mvvm_homework</string>
     <!-- Strings related to login -->
     <string name="prompt_login">Login</string>
     <string name="login_incorrect">Please enter a valid e-mail address</string>
