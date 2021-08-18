@@ -1,6 +1,6 @@
 package ru.awac.mvvm_homework.data
 
-class QuoteRepository private constructor(private val userDao: UserDao){
+class UserRepository private constructor(private val userDao: UserDao){
 
     fun addUser(user: User){
         userDao.insert(user)
@@ -8,17 +8,13 @@ class QuoteRepository private constructor(private val userDao: UserDao){
 
     fun getAllUsers() = userDao.getAll()
 
-
-    /*
     companion object {
         // Singleton instantiation you already know and love
-        @Volatile private var instance: QuoteRepository? = null
+        @Volatile private var instance: UserRepository? = null
 
-        fun getInstance(quoteDao: FakeQuoteDao) =
+        fun getInstance(quoteDao: UserDao) =
                 instance ?: synchronized(this) {
-                    instance ?: QuoteRepository(quoteDao).also { instance = it }
+                    instance ?: UserRepository(quoteDao).also { instance = it }
                 }
     }
-}
-     */
 }
