@@ -87,7 +87,7 @@
         tools:ignore="MissingConstraints"/>
 
     <TextView
-        android:id="@+id/flLoginProcessErrorTextView"
+        android:id="@+id/flLoginSuccessTextView"
         style="@style/ErrorTextView"
         app:layout_constraintTop_toBottomOf="@+id/flSignInButton"
         android:text="@string/login_success"

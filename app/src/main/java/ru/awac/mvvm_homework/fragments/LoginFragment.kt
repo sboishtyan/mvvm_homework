@@ -1,4 +1,4 @@
-package ru.awac.technical_aptitude_test.fragments
+package ru.awac.mvvm_homework.fragments
 
 import android.os.Bundle
 import android.util.Patterns
@@ -7,11 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import mvvm_homework.R
 import mvvm_homework.databinding.FragmentLoginBinding
+import ru.awac.mvvm_homework.data.User
+import ru.awac.mvvm_homework.ui.login.LoginViewModel
+import ru.awac.mvvm_homework.ui.login.LoginViewModelFactory
+import ru.awac.mvvm_homework.utils.InjectorUtils
 import ru.awac.mvvm_homework.utils.fadeTo
 
 class LoginFragment : Fragment(R.layout.fragment_login) {
+
+    private var factory: LoginViewModelFactory? = null
 
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
@@ -22,6 +29,24 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     private var isPasswordCorrect: Boolean = false
     private var enteredLogin: String = ""
     private var enteredPassword: String = ""
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initializeUi()
+    }
+
+    private fun initializeUi() {
+        factory = context?.let { context ->
+            activity?.let { activity ->
+                InjectorUtils(
+                    context,
+                    activity.application
+                ).provideLoginViewModelFactory()
+            }
+        }
+
+        factory?.let { ViewModelProvider(this, it).get(LoginViewModel::class.java) }?.getAllUsers()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,7 +74,14 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             checkLogin()
             checkPassword()
             if (isLoginCorrect && isPasswordCorrect) {
-                binding.flLoginProcessErrorTextView.fadeTo(true)
+                val user = User(1, enteredLogin, enteredPassword)
+                val allUsers =
+                    factory?.let { ViewModelProvider(this, it).get(LoginViewModel::class.java) }
+                        ?.getAllUsers()
+                if (allUsers?.contains(user) != true)
+                    binding.flLoginSuccessTextView.text =
+                        "Ошибочка вышла, нет такого пользователя в базе"
+                binding.flLoginSuccessTextView.fadeTo(true)
             }
         }
     }
@@ -68,7 +100,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     private fun hideMessages() {
         binding.flPassErrorTextView.fadeTo(false)
         binding.flLoginErrorTextView.fadeTo(false)
-        binding.flLoginProcessErrorTextView.fadeTo(false)
+        binding.flLoginSuccessTextView.fadeTo(false)
     }
 
     private fun checkLogin() {
