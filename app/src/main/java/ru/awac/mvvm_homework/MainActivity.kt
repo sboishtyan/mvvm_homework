@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import mvvm_homework.R
-import ru.awac.mvvm_homework.fragments.LoginFragment
+import ru.awac.mvvm_homework.ui.login.LoginFragment
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

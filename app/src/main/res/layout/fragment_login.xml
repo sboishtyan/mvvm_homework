@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/RootView"
-    tools:context=".fragments.LoginFragment">
+    tools:context="ru.awac.mvvm_homework.ui.login.LoginFragment">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+     android:layout_height="match_parent"
+    android:layout_width="match_parent">
 
     <ImageView
         android:id="@+id/flLogo"
@@ -21,15 +25,15 @@
         android:id="@+id/flLoginEditText"
         style="@style/EditText"
         android:layout_marginTop="@dimen/paddingXXXL"
-        android:autofillHints="@string/prompt_login"
-        android:hint="@string/prompt_login"
+        android:autofillHints="@string/prompt_email"
+        android:hint="@string/prompt_email"
         android:inputType="text|textNoSuggestions"
         app:layout_constraintTop_toBottomOf="@+id/flLogo"
         tools:ignore="MissingConstraints,TouchTargetSizeCheck"
         tools:layout_editor_absoluteX="40dp" />
 
     <TextView
-        android:id="@+id/flLoginErrorTextView"
+        android:id="@+id/fl_login_note_text_view"
         style="@style/ErrorTextView"
         app:layout_constraintTop_toBottomOf="@+id/flLoginEditText"
         android:text="@string/login_incorrect"
@@ -43,7 +47,7 @@
         android:hint="@string/prompt_password"
         android:imeActionLabel="@string/action_sign_in"
         android:inputType="textPassword"
-        app:layout_constraintTop_toBottomOf="@+id/flLoginErrorTextView"
+        app:layout_constraintTop_toBottomOf="@+id/fl_login_note_text_view"
         tools:ignore="MissingConstraints,TouchTargetSizeCheck"
         tools:layout_editor_absoluteX="40dp" />
 
@@ -87,11 +91,13 @@
         tools:ignore="MissingConstraints"/>
 
     <TextView
-        android:id="@+id/flLoginSuccessTextView"
+        android:id="@+id/flOperationResultTextView"
         style="@style/ErrorTextView"
         app:layout_constraintTop_toBottomOf="@+id/flSignInButton"
-        android:text="@string/login_success"
         tools:ignore="MissingConstraints" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.core.widget.NestedScrollView>

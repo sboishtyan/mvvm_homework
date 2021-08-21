@@ -1,12 +1,15 @@
 <resources>
     <string name="app_name">mvvm_homework</string>
     <!-- Strings related to login -->
-    <string name="prompt_login">Login</string>
+    <string name="prompt_email">Email</string>
     <string name="login_incorrect">Please enter a valid e-mail address</string>
     <string name="prompt_password">Password</string>
     <string name="password_length_incorrect">Minimal password length is eight characters</string>
     <string name="action_register">Register</string>
     <string name="action_sign_in">Sign in</string>
+    <string name="register_success">Registration is successful!</string>
     <string name="login_success">You logged in successfully!</string>
+    <string name="login_error">Oops, user is not found or password is incorrect!</string>
+
 
 </resources>

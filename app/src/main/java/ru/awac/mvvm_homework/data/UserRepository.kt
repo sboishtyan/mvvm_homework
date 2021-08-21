@@ -9,7 +9,6 @@ class UserRepository private constructor(private val userDao: UserDao){
     fun getAllUsers() = userDao.getAll()
 
     companion object {
-        // Singleton instantiation you already know and love
         @Volatile private var instance: UserRepository? = null
 
         fun getInstance(quoteDao: UserDao) =

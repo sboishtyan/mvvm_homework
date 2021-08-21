@@ -1,4 +1,4 @@
-package ru.awac.mvvm_homework.fragments
+package ru.awac.mvvm_homework.ui.login
 
 import android.os.Bundle
 import android.util.Patterns
@@ -11,8 +11,6 @@ import androidx.lifecycle.ViewModelProvider
 import mvvm_homework.R
 import mvvm_homework.databinding.FragmentLoginBinding
 import ru.awac.mvvm_homework.data.User
-import ru.awac.mvvm_homework.ui.login.LoginViewModel
-import ru.awac.mvvm_homework.ui.login.LoginViewModelFactory
 import ru.awac.mvvm_homework.utils.InjectorUtils
 import ru.awac.mvvm_homework.utils.fadeTo
 
@@ -69,19 +67,34 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             enableActionButtons()
         }
 
+        binding.flRegisterButton.setOnClickListener {
+            hideMessages()
+            checkLogin()
+            checkPassword()
+            if (isLoginCorrect && isPasswordCorrect) {
+                val user = User(enteredLogin, enteredPassword)
+                factory?.let { ViewModelProvider(this, it).get(LoginViewModel::class.java) }
+                    ?.addUser(user)
+                binding.flOperationResultTextView.text = getString(R.string.register_success)
+                binding.flOperationResultTextView.fadeTo(true)
+            }
+        }
+
         binding.flSignInButton.setOnClickListener {
             hideMessages()
             checkLogin()
             checkPassword()
             if (isLoginCorrect && isPasswordCorrect) {
-                val user = User(1, enteredLogin, enteredPassword)
+                val user = User(enteredLogin, enteredPassword)
                 val allUsers =
                     factory?.let { ViewModelProvider(this, it).get(LoginViewModel::class.java) }
                         ?.getAllUsers()
                 if (allUsers?.contains(user) != true)
-                    binding.flLoginSuccessTextView.text =
-                        "Ошибочка вышла, нет такого пользователя в базе"
-                binding.flLoginSuccessTextView.fadeTo(true)
+                    binding.flOperationResultTextView.text = getString(R.string.login_error)
+
+                else
+                    binding.flOperationResultTextView.text = getString(R.string.login_success)
+                binding.flOperationResultTextView.fadeTo(true)
             }
         }
     }
@@ -99,8 +112,8 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     private fun hideMessages() {
         binding.flPassErrorTextView.fadeTo(false)
-        binding.flLoginErrorTextView.fadeTo(false)
-        binding.flLoginSuccessTextView.fadeTo(false)
+        binding.flLoginNoteTextView.fadeTo(false)
+        binding.flOperationResultTextView.fadeTo(false)
     }
 
     private fun checkLogin() {
@@ -127,7 +140,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         )
             isLoginCorrect = true
         else
-            binding.flLoginErrorTextView.fadeTo(true)
+            binding.flLoginNoteTextView.fadeTo(true)
     }
 
     private fun checkPassword() {
