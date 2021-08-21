@@ -57,6 +57,11 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val allUsers =
+            factory?.let { ViewModelProvider(this, it).get(LoginViewModel::class.java) }
+                ?.getAllUsers()
+
         binding.flLoginEditText.doAfterTextChanged {
             isLoginEntered = it.toString() != ""
             enableActionButtons()
@@ -72,10 +77,19 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             checkLogin()
             checkPassword()
             if (isLoginCorrect && isPasswordCorrect) {
-                val user = User(enteredLogin, enteredPassword)
-                factory?.let { ViewModelProvider(this, it).get(LoginViewModel::class.java) }
-                    ?.addUser(user)
-                binding.flOperationResultTextView.text = getString(R.string.register_success)
+                var isAlreadyRegistered = false
+                allUsers?.forEach{ user ->
+                    if (user.email == enteredLogin)
+                        isAlreadyRegistered = true
+                }
+                if (isAlreadyRegistered)
+                    binding.flOperationResultTextView.text = getString(R.string.register_fail)
+                else {
+                    val user = User(enteredLogin, enteredPassword)
+                    factory?.let { ViewModelProvider(this, it).get(LoginViewModel::class.java) }
+                        ?.addUser(user)
+                    binding.flOperationResultTextView.text = getString(R.string.register_success)
+                }
                 binding.flOperationResultTextView.fadeTo(true)
             }
         }
@@ -86,9 +100,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             checkPassword()
             if (isLoginCorrect && isPasswordCorrect) {
                 val user = User(enteredLogin, enteredPassword)
-                val allUsers =
-                    factory?.let { ViewModelProvider(this, it).get(LoginViewModel::class.java) }
-                        ?.getAllUsers()
                 if (allUsers?.contains(user) != true)
                     binding.flOperationResultTextView.text = getString(R.string.login_error)
 

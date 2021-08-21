@@ -8,6 +8,7 @@
     <string name="action_register">Register</string>
     <string name="action_sign_in">Sign in</string>
     <string name="register_success">Registration is successful!</string>
+    <string name="register_fail">Email already used!</string>
     <string name="login_success">You logged in successfully!</string>
     <string name="login_error">Oops, user is not found or password is incorrect!</string>
 
