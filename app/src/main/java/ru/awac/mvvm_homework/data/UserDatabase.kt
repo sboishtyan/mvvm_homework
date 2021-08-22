@@ -26,7 +26,8 @@ abstract class UserDatabase : RoomDatabase() {
                     )
                         .fallbackToDestructiveMigration()
                         .allowMainThreadQueries() //FIXME: Yeah, it's bad, but I wanted to get app
-                        // up and running and afterwards learn about coroutines
+                        // up and running and afterwards learn about coroutines or some other
+                        // best practices
                         .build()
                     INSTANCE = instance
                 }
