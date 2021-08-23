@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import mvvm_homework.R
 import mvvm_homework.databinding.FragmentLoginBinding
 import ru.awac.mvvm_homework.data.User
-import ru.awac.mvvm_homework.utils.InjectorUtils
+import ru.awac.mvvm_homework.utils.ServiceLocator
 import ru.awac.mvvm_homework.utils.fadeTo
 
 class LoginFragment : Fragment(R.layout.fragment_login) {
@@ -34,7 +34,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     }
 
     private fun initializeUi() {
-        factory = context?.let { InjectorUtils(it).provideLoginViewModelFactory() }
+        factory = context?.let { ServiceLocator(it).loginViewModelFactory }
     }
 
     override fun onCreateView(
@@ -68,6 +68,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             checkLogin()
             checkPassword()
             if (isLoginCorrect && isPasswordCorrect) {
+                enableActionButtons(false)
                 var isAlreadyRegistered = false
                 allUsers?.forEach{ user ->
                     if (user.email == enteredLogin)
@@ -82,6 +83,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                     binding.flOperationResultTextView.text = getString(R.string.register_success)
                 }
                 binding.flOperationResultTextView.fadeTo(true)
+                enableActionButtons()
             }
         }
 
@@ -90,6 +92,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             checkLogin()
             checkPassword()
             if (isLoginCorrect && isPasswordCorrect) {
+                enableActionButtons(false)
                 val user = User(enteredLogin, enteredPassword)
                 if (allUsers?.contains(user) != true)
                     binding.flOperationResultTextView.text = getString(R.string.login_error)
@@ -97,14 +100,15 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 else
                     binding.flOperationResultTextView.text = getString(R.string.login_success)
                 binding.flOperationResultTextView.fadeTo(true)
+                enableActionButtons()
             }
         }
     }
 
-    private fun enableActionButtons() {
+    private fun enableActionButtons(isEnabled: Boolean = true) {
         val isDataEntered = isLoginEntered && isPasswordEntered
-        binding.flRegisterButton.isEnabled = isDataEntered
-        binding.flSignInButton.isEnabled = isDataEntered
+        binding.flRegisterButton.isEnabled = isDataEntered && isEnabled
+        binding.flSignInButton.isEnabled = isDataEntered && isEnabled
     }
 
     override fun onDestroyView() {
@@ -120,29 +124,9 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     private fun checkLogin() {
         enteredLogin = binding.flLoginEditText.text.toString()
-        //val isUsernameCorrect: Boolean
-        //val isTopLevelDomainCorrect: Boolean
-        //val atSignSplitEmailList = enteredLogin.split(AT)
         val isOnlyCorrectSymbols: Boolean = Patterns.EMAIL_ADDRESS.matcher(enteredLogin).matches()
-        //TODO: check if this is enough and other checks are abundant
 
-        /**
-        if (atSignSplitEmailList.size != 2) {
-            isUsernameCorrect = false
-            isTopLevelDomainCorrect = false
-        } else {
-            isUsernameCorrect = atSignSplitEmailList[0] != ""
-            isTopLevelDomainCorrect =
-                atSignSplitEmailList[1].split(DOT).last() != ""
-        }
-        **/
-
-        if (//enteredLogin.contains("@") &&
-            //enteredLogin.contains(".") &&
-            isOnlyCorrectSymbols //&&
-            //isUsernameCorrect &&
-            //isTopLevelDomainCorrect
-        )
+        if ( isOnlyCorrectSymbols )
             isLoginCorrect = true
         else
             binding.flLoginNoteTextView.fadeTo(true)
@@ -158,7 +142,5 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     companion object {
         const val MINIMAL_PASSWORD_LENGTH = 8
-        const val AT = "@"
-        const val DOT = "."
     }
 }

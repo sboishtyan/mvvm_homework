@@ -5,14 +5,12 @@ import ru.awac.mvvm_homework.data.UserDatabase
 import ru.awac.mvvm_homework.data.UserRepository
 import ru.awac.mvvm_homework.ui.login.LoginViewModelFactory
 
-class InjectorUtils(
+class ServiceLocator(
     private val context: Context
 ) {
 
-    fun provideLoginViewModelFactory(): LoginViewModelFactory {
-
+    val loginViewModelFactory by lazy {
         val userRepository = UserRepository.getInstance(UserDatabase.getInstance(context).userDao)
-
-        return LoginViewModelFactory(userRepository)
+        LoginViewModelFactory(userRepository)
     }
 }

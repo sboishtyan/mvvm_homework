@@ -9,12 +9,11 @@ class UserRepository private constructor(private val userDao: UserDao) {
     fun getAllUsers() = userDao.getAll()
 
     companion object {
-        @Volatile
+
         private var instance: UserRepository? = null
 
+        @Synchronized
         fun getInstance(quoteDao: UserDao) =
-            instance ?: synchronized(this) {
-                instance ?: UserRepository(quoteDao).also { instance = it }
-            }
+            instance ?: UserRepository(quoteDao).also { instance = it }
     }
 }
