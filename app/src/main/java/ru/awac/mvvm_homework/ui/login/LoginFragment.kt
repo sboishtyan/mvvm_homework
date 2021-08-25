@@ -48,22 +48,36 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val allUsers =
-            factory?.let { ViewModelProvider(this, it).get(LoginViewModel::class.java) }
-                ?.getAllUsers()
-
+        val loginViewModel = factory?.let { ViewModelProvider(this, it).get(LoginViewModel::class.java) }
+        
+        loginViewModel.users.observe { users ->
+            
+        }
+        loginViewModel.isSignEnabled.observe { isEnabled
+            binding.flSignInButton.isEnabled = isEnabled
+        }
+        // тоже самое для isRegisterEnabled
+        
         binding.flLoginEditText.doAfterTextChanged {
-            isLoginEntered = it.toString() != ""
-            enableActionButtons()
+            loginViewModel.login.set(it.toString())
         }
 
         binding.flPassEditText.doAfterTextChanged {
-            isPasswordEntered = it.toString() != ""
-            enableActionButtons()
+            loginViewModel.password.set(it.toString())
+        }
+        
+        loginViewModel.showMessages.observe { show -> 
+            
+        }
+        
+        loginViewModel.operationResult.observe { (fade, text) -> 
+            binding.flOperationResultTextView.fadeTo(fade)
+            binding.flOperationResultTextView.text = text
         }
 
         binding.flRegisterButton.setOnClickListener {
+            loginViewModel.onRegisterClick()
+            
             hideMessages()
             checkLogin()
             checkPassword()
@@ -74,6 +88,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                     if (user.email == enteredLogin)
                         isAlreadyRegistered = true
                 }
+                
                 if (isAlreadyRegistered)
                     binding.flOperationResultTextView.text = getString(R.string.register_fail)
                 else {
